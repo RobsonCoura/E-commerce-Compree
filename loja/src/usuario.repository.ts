@@ -6,6 +6,10 @@ export class UsuarioRepository {
     //Método para salva usuario
     salvar(usuario) {
         this.usuarios.push(usuario);
-        console.log(this.usuarios)
+    }
+
+    //Método para consultar todos usuario
+    async listar() {
+        return this.usuarios;
     }
 }
