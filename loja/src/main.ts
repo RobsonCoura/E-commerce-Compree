@@ -1,8 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      //Quando executar esse pipe ele tranforma o Json no CriarUsuarioDTO
+      transform: true,
+      //Ignora todas as propriedades que vinher no Json que nao estiver no DTO.
+      whitelist: true,
+      //Lancar um erro quando o cliente manda uma requisicao que nao estiver no DTO.
+      forbidNonWhitelisted: true
+    })
+  )
   await app.listen(3000);
 }
 bootstrap();
