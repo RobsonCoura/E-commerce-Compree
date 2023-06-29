@@ -4,8 +4,10 @@ import { UsuarioRepository } from "./usuario.repository";
 @Controller('/usuarios')
 export class UsuarioController {
 
-    //Injecao de dependencia
-    private usuarioRepository = new UsuarioRepository();
+    //Construtor para o Nest.js consiga instancia de forma automatica o Objeto
+    constructor(private usuarioRepository: UsuarioRepository) {
+        
+    }
 
     //Método para cadastro de usuario
     @Post()
