@@ -26,9 +26,8 @@ export class UsuarioRepository {
         return possivelUsuario !== undefined;
     }
 
-
-    //Método para atualizar um usuario
-    async atualizar(id: string, dadosDeAtualizacao: Partial<UsuarioEntity>) {
+    //Método para evitar código repetidos
+    private buscaPorId(id: string) {
         const possivelUsuario = this.usuarios.find(
             usuarioSalvo => usuarioSalvo.id === id
         );
@@ -36,14 +35,31 @@ export class UsuarioRepository {
         if (!possivelUsuario) {
             throw new Error('Usuário não existe');
         }
+        return possivelUsuario;
+    }
+
+    //Método para atualizar um usuario
+    async atualizar(id: string, dadosDeAtualizacao: Partial<UsuarioEntity>) {
+        const usuario = this.buscaPorId(id)
+
         //Valida se email é realmente um email e verifica se já tem gravado na base de dados
         Object.entries(dadosDeAtualizacao).forEach(([chave, valor]) => {
             if (chave === 'id') {
                 return;
             }
-            possivelUsuario[chave] = valor;
+            usuario[chave] = valor;
         });
 
-        return possivelUsuario;
+        return usuario;
+    }
+
+    //Método para excluir um usuario
+    async remove(id: string) {
+        const usuario = this.buscaPorId(id);
+        this.usuarios = this.usuarios.filter(
+            usuarioSalvo => usuarioSalvo.id !== id
+        );
+
+        return usuario;
     }
 }
