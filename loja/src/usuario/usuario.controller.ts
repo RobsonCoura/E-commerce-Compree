@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { UsuarioRepository } from "./usuario.repository";
-import { CriarUsuarioDTO } from "./dto/CriarUsuario.dto";
 import { UsuarioEntity } from "./usuario.entity";
 import { v4 as uuid } from 'uuid';
 import { ListaUsuarioDTO } from "./dto/ListaUsuario.dto";
+import { CadastrarUsuarioDTO } from "./dto/CadastrarUsuario.dto";
+
 
 
 @Controller('/usuarios')
@@ -16,7 +17,7 @@ export class UsuarioController {
 
     //Método para cadastro de usuario
     @Post()
-    async criarUsuario(@Body() dadosDoUsuario: CriarUsuarioDTO) {
+    async cadastrarUsuario(@Body() dadosDoUsuario: CadastrarUsuarioDTO) {
 
         const usuarioEntity = new UsuarioEntity();
         usuarioEntity.id = uuid();
