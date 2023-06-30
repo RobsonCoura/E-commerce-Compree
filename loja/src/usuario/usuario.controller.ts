@@ -7,7 +7,7 @@ export class UsuarioController {
 
     //Construtor para o Nest.js consiga instancia de forma automatica o Objeto
     constructor(private usuarioRepository: UsuarioRepository) {
-        
+
     }
 
     //Método para cadastro de usuario

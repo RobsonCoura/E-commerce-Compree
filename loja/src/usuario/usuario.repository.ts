@@ -14,4 +14,15 @@ export class UsuarioRepository {
     async listar() {
         return this.usuarios;
     }
+
+
+    //Método de buscar usuario por e-mail
+    async existeEsseEmail(email: string) {
+        const possivelUsuario = this.usuarios.find(
+            usuario => usuario.email === email
+        );
+
+        return possivelUsuario !== undefined;
+    }
+
 }
