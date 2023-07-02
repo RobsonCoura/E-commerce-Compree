@@ -41,4 +41,11 @@ export class ProdutoRepository {
 
         return produto;
     }
+
+    //Método para excluir um produto
+    async deletarUmProduto(id: string) {
+        const produtoRemovido = this.buscaPorId(id);
+        this.produtos = this.produtos.filter((produto) => produto.id !== id);
+        return produtoRemovido;
+    }
 }
