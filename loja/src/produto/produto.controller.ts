@@ -8,6 +8,7 @@ import { randomUUID } from "crypto";
 export class ProdutoController {
     constructor(private readonly produtoRepository: ProdutoRepository) { }
 
+    //Método para cadastrar um produto passando id de um usuário cadastrado
     @Post()
     async criarNovoProduto(@Body() dadosProduto: CadastrarProdutoDTO) {
         const produto = new ProdutoEntity();
@@ -26,8 +27,9 @@ export class ProdutoController {
         return produtoCadastrado;
     }
 
+    //Método para buscar todos produtos
     @Get()
-    listaTodosProdutos() {
+    async listaTodosProdutos() {
         return this.produtoRepository.listaTodosProdutos();
     }
 }
