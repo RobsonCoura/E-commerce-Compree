@@ -1,17 +1,19 @@
 import { Injectable } from "@nestjs/common";
+import { ProdutoEntity } from "./produto.entity";
 
 @Injectable()
 export class ProdutoRepository {
     
-    private produtos = [];
+    private produtos: ProdutoEntity[] = [];
 
     //Método para consultar todos produtos
-    listaTodos() {
+    listaTodosProdutos() {
         return this.produtos;
     }
 
     //Método para cadastrar um produto
-    salvar(dadosProduto) {
+    salvarUmProduto(dadosProduto) {
         this.produtos.push(dadosProduto);
+        return dadosProduto;
     }
 }
