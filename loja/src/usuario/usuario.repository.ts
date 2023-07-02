@@ -26,7 +26,7 @@ export class UsuarioRepository {
         return possivelUsuario !== undefined;
     }
 
-    //Método para evitar código repetidos
+    //Método para verificar se já existe id cadastrado na base de dados
     private buscaPorId(id: string) {
         const possivelUsuario = this.usuarios.find(
             usuarioSalvo => usuarioSalvo.id === id
