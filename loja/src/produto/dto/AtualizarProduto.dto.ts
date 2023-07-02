@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 import { CaracteristicaProdutoDTO, ImagemProdutoDTO } from './CadastrarProduto.dto';
 
-export class AtualizaProdutoDTO {
+export class AtualizarProdutoDTO {
     @IsUUID(undefined, { message: 'ID do produto inválido' })
     id: string;
 
