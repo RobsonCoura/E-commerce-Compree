@@ -7,12 +7,12 @@ export class ProdutoRepository {
     private produtos: ProdutoEntity[] = [];
 
     //Método para consultar todos produtos
-    listaTodosProdutos() {
+    lista() {
         return this.produtos;
     }
 
     //Método para cadastrar um produto
-    salvarUmProduto(dadosProduto) {
+    salvar(dadosProduto) {
         this.produtos.push(dadosProduto);
         return dadosProduto;
     }
@@ -29,7 +29,7 @@ export class ProdutoRepository {
     }
 
     //Método para atualizar um produto
-    async atualizarUmProduto(id: string, dadosProduto: Partial<ProdutoEntity>) {
+    async atualizar(id: string, dadosProduto: Partial<ProdutoEntity>) {
         const dadosNaoAtualizaveis = ['id', 'usuarioId'];
         const produto = this.buscaPorId(id);
         Object.entries(dadosProduto).forEach(([chave, valor]) => {
@@ -43,7 +43,7 @@ export class ProdutoRepository {
     }
 
     //Método para excluir um produto
-    async deletarUmProduto(id: string) {
+    async deletar(id: string) {
         const produtoRemovido = this.buscaPorId(id);
         this.produtos = this.produtos.filter((produto) => produto.id !== id);
         return produtoRemovido;

@@ -3,7 +3,7 @@ import { ProdutoRepository } from "./produto.repository";
 import { CadastrarProdutoDTO } from "./dto/CadastrarProduto.dto";
 import { ProdutoEntity } from "./produto.entity";
 import { randomUUID } from "crypto";
-import { AtualizarProdutoDTO } from "./dto/AtualizarProduto.dto";
+import { AtualizaProdutoDTO } from "./dto/AtualizarProduto.dto";
 
 @Controller('/produtos')
 export class ProdutoController {
@@ -24,23 +24,23 @@ export class ProdutoController {
         produto.caracteristicas = dadosProduto.caracteristicas;
         produto.imagens = dadosProduto.imagens;
 
-        const produtoCadastrado = this.produtoRepository.salvarUmProduto(produto);
+        const produtoCadastrado = this.produtoRepository.salvar(produto);
         return produtoCadastrado;
     }
 
     //Método para buscar todos produtos
     @Get()
     async listaTodosProdutos() {
-        return this.produtoRepository.listaTodosProdutos();
+        return this.produtoRepository.lista();
     }
 
     //Método para atualizar um produto
     @Put('/:id')
     async atualizarUmProduto(
         @Param('id') id: string,
-        @Body() dadosProduto: AtualizarProdutoDTO,
+        @Body() dadosProduto: AtualizaProdutoDTO,
     ) {
-        const produtoAlterado = await this.produtoRepository.atualizarUmProduto(
+        const produtoAlterado = await this.produtoRepository.atualizar(
             id,
             dadosProduto,
         );
@@ -53,11 +53,11 @@ export class ProdutoController {
 
     @Delete('/:id')
     async deletarUmProduto(@Param('id') id: string) {
-      const produtoRemovido = await this.produtoRepository.deletarUmProduto(id);
-  
-      return {
-        mensagem: 'produto removido com sucesso',
-        produto: produtoRemovido,
-      };
+        const produtoRemovido = await this.produtoRepository.deletar(id);
+
+        return {
+            mensagem: 'produto removido com sucesso',
+            produto: produtoRemovido,
+        };
     }
 }
