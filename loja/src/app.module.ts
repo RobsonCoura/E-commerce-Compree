@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UsuarioModule } from './usuario/usuario.module';
-import { ProdutoModule } from './produto/produto.module';
-import { PostgresConfigService } from './config/postgres.config.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-//Chamando as importações inclusive a do TypeOrmModule
+import { ProdutoModule } from './produto/produto.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { PostgresConfigService } from './config/postgres.config.service';
+
 @Module({
   imports: [
     UsuarioModule,
