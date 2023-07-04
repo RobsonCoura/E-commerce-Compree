@@ -48,8 +48,13 @@ export class UsuarioController {
 
   //Método para atualizar um usuário
   @Put('/:id')
-  async atualizarusuario(@Param('id') id: string, @Body() dadosParaAtualizar: AtualizarUsuarioDTO) {
-    const usuarioAtualizado = await this.usuarioRepository.atualizar(id, dadosParaAtualizar);
+  async atualizarUsuario(
+    @Param('id') id: string,
+    @Body() dadosParaAtualizar: AtualizarUsuarioDTO,
+  ) {
+    const usuarioAtualizado = await this.usuarioService.atualizarUsuario(
+      id, dadosParaAtualizar,
+      );
 
     return {
       usuario: usuarioAtualizado,

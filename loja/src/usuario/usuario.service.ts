@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ListaUsuarioDTO } from "./dto/ListaUsuario.dto";
 import { UsuarioEntity } from "./usuario.entity";
 import { Repository } from "typeorm";
+import { AtualizarUsuarioDTO } from "./dto/AtualizarUsuario.dto";
 
 @Injectable()
 export class UsuarioService {
@@ -24,4 +25,10 @@ export class UsuarioService {
         )
         return usuariosLista;
     }
+
+    //Método para atualizar um usuário
+    async atualizarUsuario(id: string, usuarioEntity: AtualizarUsuarioDTO) {
+        await this.usuarioRepository.update(id, usuarioEntity);
+    }
+
 }
