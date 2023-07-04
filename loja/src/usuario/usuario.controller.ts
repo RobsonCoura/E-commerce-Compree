@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { ListaUsuarioDTO } from "./dto/ListaUsuario.dto";
 import { CadastrarUsuarioDTO } from "./dto/CadastrarUsuario.dto";
 import { AtualizarUsuarioDTO } from "./dto/AtualizarUsuario.dto";
+import { UsuarioService } from "./usuario.service";
 
 
 
@@ -12,7 +13,10 @@ import { AtualizarUsuarioDTO } from "./dto/AtualizarUsuario.dto";
 export class UsuarioController {
 
   //Construtor para o Nest.js consiga instancia de forma automatica o Objeto
-  constructor(private usuarioRepository: UsuarioRepository) {
+  constructor(
+    private usuarioRepository: UsuarioRepository,
+    private usuarioService: UsuarioService
+  ) {
 
   }
 
@@ -37,12 +41,9 @@ export class UsuarioController {
   //Método para buscar todos usuários
   @Get()
   async listUsuarios() {
-    const usuariosSalvos = await this.usuarioRepository.listar();
-    const usuariosLista = usuariosSalvos.map(
-      (usuario) => new ListaUsuarioDTO(usuario.id, usuario.nome),
-    );
+    const usuariosSalvos = await this.usuarioService.listaUsuarios()
 
-    return usuariosLista;
+    return usuariosSalvos;
   }
 
   //Método para atualizar um usuário
