@@ -10,6 +10,6 @@ import { UsuarioEntity } from "./usuario.entity";
     imports: [TypeOrmModule.forFeature([UsuarioEntity])],
     controllers: [UsuarioController],
     //Referencias para Classe que o Nest.js gerencie a criacao desses objetos.
-    providers: [ UsuarioService, UsuarioRepository, EmailEhUnicoValidator]
+    providers: [ UsuarioService, UsuarioRepository, EmailEhUnicoValidator],
 })
 export class UsuarioModule {}

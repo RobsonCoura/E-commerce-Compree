@@ -30,7 +30,7 @@ export class UsuarioController {
     usuarioEntity.email = dadosDoUsuario.email;
     usuarioEntity.senha = dadosDoUsuario.senha;
 
-    this.usuarioRepository.salvar(usuarioEntity);
+    this.usuarioService.criaUsuario(usuarioEntity);
 
     return {
       usuario: new ListaUsuarioDTO(usuarioEntity.id, usuarioEntity.nome),
@@ -41,7 +41,7 @@ export class UsuarioController {
   //Método para buscar todos usuários
   @Get()
   async listUsuarios() {
-    const usuariosSalvos = await this.usuarioService.listaUsuarios()
+    const usuariosSalvos = await this.usuarioService.listaUsuarios();
 
     return usuariosSalvos;
   }

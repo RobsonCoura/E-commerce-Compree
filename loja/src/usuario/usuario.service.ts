@@ -11,6 +11,11 @@ export class UsuarioService {
         private readonly usuarioRepository: Repository<UsuarioEntity>
     ) { }
 
+    //Método para criar um usuário
+    async criaUsuario(usuarioEntity: UsuarioEntity) {
+        await this.usuarioRepository.save(usuarioEntity);
+    }
+
     //Método para buscar uma lista de usuários
     async listaUsuarios() {
         const usuariosSalvos = await this.usuarioRepository.find();
