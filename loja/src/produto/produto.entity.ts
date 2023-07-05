@@ -1,11 +1,14 @@
 import {
-    Column,
-    CreateDateColumn,
-    DeleteDateColumn,
-    Entity,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { ProdutoCaracteristicaEntity } from './produto-caracteristica.entity';
+import { ProdutoImagemEntity } from './produto-imagem.entity';
 
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
@@ -30,6 +33,22 @@ export class ProdutoEntity {
   @Column({ name: 'categoria', length: 100, nullable: false })
   categoria: string;
 
+  //Mapeamento da entity produto apontando para produto-caracteristicas
+  @OneToMany(
+    () => ProdutoCaracteristicaEntity,
+    (produtoCaracteristicaEntity) => produtoCaracteristicaEntity.produto,
+    { cascade: true, eager: true },
+  )
+  caracteristicas: ProdutoCaracteristicaEntity[];
+
+  //Mapeamento da entity produto apontando para produto-imagem
+  @OneToMany(
+    () => ProdutoImagemEntity,
+    (produtoImagemEntity) => produtoImagemEntity.produto,
+    { cascade: true, eager: true },
+  )
+  imagens: ProdutoImagemEntity[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
 
@@ -38,7 +57,4 @@ export class ProdutoEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
-
-  // caracteristicas: CaracteristicaProduto[];
-  // imagens: ImagemProduto[];
 }

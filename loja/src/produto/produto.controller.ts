@@ -1,11 +1,11 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { AtualizaProdutoDTO } from './dto/AtualizarProduto.dto';
@@ -32,8 +32,8 @@ export class ProdutoController {
     produto.quantidade = dadosProduto.quantidadeDisponivel;
     produto.descricao = dadosProduto.descricao;
     produto.categoria = dadosProduto.categoria;
-    // produto.caracteristicas = dadosProduto.caracteristicas;
-    // produto.imagens = dadosProduto.imagens;
+    produto.caracteristicas = dadosProduto.caracteristicas;
+    produto.imagens = dadosProduto.imagens;
 
     const produtoCadastrado = this.produtoService.criaProduto(produto);
     return produtoCadastrado;
