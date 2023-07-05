@@ -13,6 +13,10 @@ export class ProdutoImagemEntity {
   descricao: string;
 
   //Mapeamento da entity produto-imagem apontando para produto
-  @ManyToOne(() => ProdutoEntity, (produto) => produto.caracteristicas)
+  @ManyToOne(() => ProdutoEntity, (produto) => produto.caracteristicas, {
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   produto: ProdutoEntity;
 }
