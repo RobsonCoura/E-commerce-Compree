@@ -1,29 +1,27 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { UsuarioRepository } from "./usuario.repository";
-import { UsuarioEntity } from "./usuario.entity";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
-import { ListaUsuarioDTO } from "./dto/ListaUsuario.dto";
-import { CadastrarUsuarioDTO } from "./dto/CadastrarUsuario.dto";
-import { AtualizarUsuarioDTO } from "./dto/AtualizarUsuario.dto";
-import { UsuarioService } from "./usuario.service";
-
-
+import { AtualizarUsuarioDTO } from './dto/AtualizarUsuario.dto';
+import { CadastrarUsuarioDTO } from './dto/CadastrarUsuario.dto';
+import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
+import { UsuarioEntity } from './usuario.entity';
+import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
 export class UsuarioController {
-
   //Construtor para o Nest.js consiga instancia de forma automatica o Objeto
-  constructor(
-    private usuarioRepository: UsuarioRepository,
-    private usuarioService: UsuarioService
-  ) {
-
-  }
+  constructor(private usuarioService: UsuarioService) {}
 
   //Método para criar um usuário
   @Post()
   async cadastrarUsuario(@Body() dadosDoUsuario: CadastrarUsuarioDTO) {
-
     const usuarioEntity = new UsuarioEntity();
     usuarioEntity.id = uuid();
     usuarioEntity.nome = dadosDoUsuario.nome;
@@ -53,23 +51,23 @@ export class UsuarioController {
     @Body() dadosParaAtualizar: AtualizarUsuarioDTO,
   ) {
     const usuarioAtualizado = await this.usuarioService.atualizarUsuario(
-      id, dadosParaAtualizar,
-      );
+      id,
+      dadosParaAtualizar,
+    );
 
     return {
       usuario: usuarioAtualizado,
       messagem: 'Usuário atualizado com sucesso',
-    }
+    };
   }
 
   @Delete('/:id')
   async removeUsuario(@Param('id') id: string) {
-    const usuarioRemovido = await this.usuarioRepository.remove(id);
+    const usuarioRemovido = await this.usuarioService.deletarUsuario(id);
 
     return {
       usuario: usuarioRemovido,
-      messagem: 'Usuário removido com sucesso'
-    }
+      messagem: 'Usuário removido com sucesso',
+    };
   }
-
 }

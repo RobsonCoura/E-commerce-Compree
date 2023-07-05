@@ -1,4 +1,4 @@
-import { IsEmail, IsEmpty, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { EmailEhUnico } from '../validacao/email-unico.validator';
 
 export class CadastrarUsuarioDTO {
@@ -11,5 +11,4 @@ export class CadastrarUsuarioDTO {
 
   @MinLength(6, { message: 'A senha precisa ter pelo menos 6 caracteres' })
   senha: string;
-
 }
