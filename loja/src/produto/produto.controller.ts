@@ -7,12 +7,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { randomUUID } from 'crypto';
 import { AtualizaProdutoDTO } from './dto/AtualizarProduto.dto';
 import { CadastrarProdutoDTO } from './dto/CadastrarProduto.dto';
-import { ProdutoEntity } from './produto.entity';
 import { ProdutoService } from './produto.service';
 
+/*A camada de controller é responsável por receber as requisições HTTP,
+ e direcioná-las aos serviços adequados*/
 @Controller('produtos')
 export class ProdutoController {
   constructor(
@@ -22,21 +22,15 @@ export class ProdutoController {
 
   //Método para cadastrar um produto passando id de um usuário cadastrado
   @Post()
-  async criarNovoProduto(@Body() dadosProduto: CadastrarProdutoDTO) {
-    const produto = new ProdutoEntity();
+  async criaNovo(@Body() dadosProduto: CadastrarProdutoDTO) {
+    const produtoCadastrado = await this.produtoService.criaProduto(
+      dadosProduto,
+    );
 
-    produto.id = randomUUID();
-    produto.nome = dadosProduto.nome;
-    produto.usuarioId = dadosProduto.usuarioId;
-    produto.valor = dadosProduto.valor;
-    produto.quantidade = dadosProduto.quantidadeDisponivel;
-    produto.descricao = dadosProduto.descricao;
-    produto.categoria = dadosProduto.categoria;
-    produto.caracteristicas = dadosProduto.caracteristicas;
-    produto.imagens = dadosProduto.imagens;
-
-    const produtoCadastrado = this.produtoService.criaProduto(produto);
-    return produtoCadastrado;
+    return {
+      mensagem: 'Produto criado com sucesso.',
+      produto: produtoCadastrado,
+    };
   }
 
   //Método para buscar todos produtos

@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AtualizaProdutoDTO } from './dto/AtualizarProduto.dto';
+import { CadastrarProdutoDTO } from './dto/CadastrarProduto.dto';
 import { ListaProdutoDTO } from './dto/ListaProduto.dto';
 import { ProdutoEntity } from './produto.entity';
 
+//A camada de service é responsável por conter a lógica e regras de negócios de nossa API
 @Injectable()
 export class ProdutoService {
   constructor(
@@ -13,8 +15,19 @@ export class ProdutoService {
   ) {}
 
   //Método para cria um produto
-  async criaProduto(produtoEntity: ProdutoEntity) {
-    await this.produtoRepository.save(produtoEntity);
+  async criaProduto(dadosProduto: CadastrarProdutoDTO) {
+    const produtoEntity = new ProdutoEntity();
+
+    produtoEntity.nome = dadosProduto.nome;
+    produtoEntity.usuarioId = dadosProduto.usuarioId;
+    produtoEntity.valor = dadosProduto.valor;
+    produtoEntity.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
+    produtoEntity.descricao = dadosProduto.descricao;
+    produtoEntity.categoria = dadosProduto.categoria;
+    produtoEntity.caracteristicas = dadosProduto.caracteristicas;
+    produtoEntity.imagens = dadosProduto.imagens;
+
+    return this.produtoRepository.save(produtoEntity);
   }
 
   //Método para buscar uma lista de produto
