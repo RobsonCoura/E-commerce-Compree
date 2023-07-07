@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
-import { UsuarioEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { AtualizarUsuarioDTO } from './dto/AtualizarUsuario.dto';
+import { CadastrarUsuarioDTO } from './dto/CadastrarUsuario.dto';
+import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
+import { UsuarioEntity } from './usuario.entity';
 
 @Injectable()
 export class UsuarioService {
@@ -13,8 +14,14 @@ export class UsuarioService {
   ) {}
 
   //Método para criar um usuário
-  async criaUsuario(usuarioEntity: UsuarioEntity) {
-    await this.usuarioRepository.save(usuarioEntity);
+  async criaUsuario(dadosDoUsuario: CadastrarUsuarioDTO) {
+    const usuarioEntity = new UsuarioEntity();
+
+    usuarioEntity.email = dadosDoUsuario.email;
+    usuarioEntity.senha = dadosDoUsuario.senha;
+    usuarioEntity.nome = dadosDoUsuario.nome;
+
+    return this.usuarioRepository.save(usuarioEntity);
   }
 
   //Método para buscar uma lista de usuários
