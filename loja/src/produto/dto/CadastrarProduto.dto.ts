@@ -6,11 +6,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
-  IsUUID,
   IsUrl,
   MaxLength,
   Min,
-  ValidateNested,
+  ValidateNested
 } from 'class-validator';
 import { ProdutoEntity } from '../produto.entity';
 
@@ -42,9 +41,6 @@ export class ImagemProdutoDTO {
 }
 
 export class CadastrarProdutoDTO {
-  @IsUUID(undefined, { message: 'ID de usuário inválido' })
-  usuarioId: string;
-
   @IsString()
   @IsNotEmpty({ message: 'Nome do produto não pode ser vazio' })
   nome: string;
