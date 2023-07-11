@@ -5,12 +5,12 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
 import { AtualizarUsuarioDTO } from './dto/AtualizarUsuario.dto';
+import { CadastrarUsuarioDTO } from './dto/CadastrarUsuario.dto';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { UsuarioService } from './usuario.service';
-import { CadastrarUsuarioDTO } from './dto/CadastrarUsuario.dto';
 
 @Controller('/usuarios')
 export class UsuarioController {
@@ -38,28 +38,28 @@ export class UsuarioController {
 
   //Método para atualizar um usuário
   @Put('/:id')
-  async atualizarUsuario(
+  async atualizaUsuario(
     @Param('id') id: string,
-    @Body() dadosParaAtualizar: AtualizarUsuarioDTO,
+    @Body() novosDados: AtualizarUsuarioDTO,
   ) {
-    const usuarioAtualizado = await this.usuarioService.atualizarUsuario(
+    const usuarioAtualizado = await this.usuarioService.atualizaUsuario(
       id,
-      dadosParaAtualizar,
+      novosDados,
     );
 
     return {
       usuario: usuarioAtualizado,
-      messagem: 'Usuário atualizado com sucesso',
+      messagem: 'usuário atualizado com sucesso',
     };
   }
 
   @Delete('/:id')
   async removeUsuario(@Param('id') id: string) {
-    const usuarioRemovido = await this.usuarioService.deletarUsuario(id);
+    const usuarioRemovido = await this.usuarioService.deletaUsuario(id);
 
     return {
       usuario: usuarioRemovido,
-      messagem: 'Usuário removido com sucesso',
+      messagem: 'usuário removido com suceso',
     };
   }
 }
