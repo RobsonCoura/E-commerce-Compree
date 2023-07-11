@@ -7,9 +7,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ItemPedidoEntity } from '../pedido/itempedido.entity';
 import { ProdutoCaracteristicaEntity } from './produto-caracteristica.entity';
 import { ProdutoImagemEntity } from './produto-imagem.entity';
 
+//Entity representa a estrutura de dados do objeto
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -45,6 +47,9 @@ export class ProdutoEntity {
     { cascade: true, eager: true },
   )
   imagens: ProdutoImagemEntity[];
+
+  @OneToMany(() => ItemPedidoEntity, (itemPedido) => itemPedido.produto)
+  itensPedido: ItemPedidoEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
