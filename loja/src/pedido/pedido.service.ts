@@ -105,6 +105,8 @@ export class PedidoService {
 
   //Método que retorna uma lista de pedidos relacionados ao usuário especificado pelo usuarioId
   async obtemPedidosDeUsuario(usuarioId: string) {
+    const usuario = await this.buscaUsuario(usuarioId);
+
     return this.pedidoRepository.find({
       where: {
         usuario: { id: usuarioId },
@@ -114,6 +116,7 @@ export class PedidoService {
       },
     });
   }
+
   // Método para atualizar um pedido utilizando id de um usuário cadastrado no banco
   async atualizaPedido(id: string, dto: AtualizaPedidoDto) {
     const pedido = await this.pedidoRepository.findOneBy({ id });
