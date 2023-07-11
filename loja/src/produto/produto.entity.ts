@@ -5,7 +5,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { ItemPedidoEntity } from '../pedido/itempedido.entity';
 import { ProdutoCaracteristicaEntity } from './produto-caracteristica.entity';

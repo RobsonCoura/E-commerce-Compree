@@ -2,7 +2,6 @@ import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
-  IsDateString,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -30,7 +29,7 @@ export class CaracteristicaProdutoDTO {
 export class ImagemProdutoDTO {
   id: string;
 
-  @IsUrl()
+  @IsUrl({ message: 'URL para imagem inválida' })
   url: string;
 
   @IsString()
@@ -40,7 +39,7 @@ export class ImagemProdutoDTO {
   produto: ProdutoEntity;
 }
 
-export class CadastrarProdutoDTO {
+export class CriaProdutoDTO {
   @IsString()
   @IsNotEmpty({ message: 'Nome do produto não pode ser vazio' })
   nome: string;
@@ -62,7 +61,7 @@ export class CadastrarProdutoDTO {
 
   @ValidateNested()
   @IsArray()
-  @ArrayMinSize(3)
+  @ArrayMinSize(1)
   @Type(() => CaracteristicaProdutoDTO)
   caracteristicas: CaracteristicaProdutoDTO[];
 
@@ -75,10 +74,4 @@ export class CadastrarProdutoDTO {
   @IsString()
   @IsNotEmpty({ message: 'Categoria do produto não pode ser vazia' })
   categoria: string;
-
-  @IsDateString()
-  dataCriacao: Date;
-
-  @IsDateString()
-  dataAtualizacao: Date;
 }

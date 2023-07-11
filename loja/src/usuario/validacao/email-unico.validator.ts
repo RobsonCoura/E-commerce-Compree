@@ -1,5 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
+  registerDecorator,
+  ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface
 } from 'class-validator';
@@ -10,20 +12,22 @@ import { UsuarioService } from '../usuario.service';
 export class EmailEhUnicoValidator implements ValidatorConstraintInterface {
   constructor(private usuarioService: UsuarioService) {}
 
-  //Métódo para lançamento de exceção onde o email não é encontrado
   async validate(value: any): Promise<boolean> {
-    try {
-      const usuarioComEmailExiste = await this.usuarioService.buscaPorEmail(
-        value,
-      );
-
-      return !usuarioComEmailExiste;
-    } catch (erro) {
-      if (erro instanceof NotFoundException) {
-        return true;
-      }
-
-      return false;
-    }
+    const usuarioComEmailExiste = await this.usuarioService.buscaPorEmail(
+      value,
+    );
+    return !usuarioComEmailExiste;
   }
 }
+//Método para verificacao se e-mail já existe no banco de dados
+export const EmailEhUnico = (opcoesDeValidacao: ValidationOptions) => {
+  return (objeto: object, propriedade: string) => {
+    registerDecorator({
+      target: objeto.constructor,
+      propertyName: propriedade,
+      options: opcoesDeValidacao,
+      constraints: [],
+      validator: EmailEhUnicoValidator,
+    });
+  };
+};

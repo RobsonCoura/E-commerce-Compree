@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AtualizarUsuarioDTO } from './dto/AtualizarUsuario.dto';
-import { CadastrarUsuarioDTO } from './dto/CadastrarUsuario.dto';
+import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
+import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { UsuarioEntity } from './usuario.entity';
 
@@ -13,7 +13,7 @@ export class UsuarioService {
     private readonly usuarioRepository: Repository<UsuarioEntity>,
   ) {}
   //Método para cadastrar um usuario
-  async criaUsuario(dadosDoUsuario: CadastrarUsuarioDTO) {
+  async criaUsuario(dadosDoUsuario: CriaUsuarioDTO) {
     const usuarioEntity = new UsuarioEntity();
 
     Object.assign(usuarioEntity, dadosDoUsuario as UsuarioEntity);
@@ -40,7 +40,7 @@ export class UsuarioService {
     return checkEmail;
   }
   //Método para atualizar um usuario
-  async atualizaUsuario(id: string, novosDados: AtualizarUsuarioDTO) {
+  async atualizaUsuario(id: string, novosDados: AtualizaUsuarioDTO) {
     const usuario = await this.usuarioRepository.findOneBy({ id });
 
     if (usuario === null)

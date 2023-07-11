@@ -5,10 +5,10 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Put
 } from '@nestjs/common';
-import { AtualizaProdutoDTO } from './dto/AtualizarProduto.dto';
-import { CadastrarProdutoDTO } from './dto/CadastrarProduto.dto';
+import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
+import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProdutoService } from './produto.service';
 
 /*A camada de controller é responsável por receber as requisições HTTP,
@@ -22,7 +22,7 @@ export class ProdutoController {
 
   //Método para cadastrar um produto passando id de um usuário cadastrado
   @Post()
-  async criaNovo(@Body() dadosProduto: CadastrarProdutoDTO) {
+  async criaNovo(@Body() dadosProduto: CriaProdutoDTO) {
     const produtoCadastrado = await this.produtoService.criaProduto(
       dadosProduto,
     );
@@ -45,7 +45,7 @@ export class ProdutoController {
     @Param('id') id: string,
     @Body() dadosProduto: AtualizaProdutoDTO,
   ) {
-    const produtoAlterado = await this.produtoService.atualizarProduto(
+    const produtoAlterado = await this.produtoService.atualizaProduto(
       id,
       dadosProduto,
     );
