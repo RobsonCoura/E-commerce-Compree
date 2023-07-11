@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AtualizaProdutoDTO } from './dto/AtualizarProduto.dto';
@@ -41,6 +41,10 @@ export class ProdutoService {
   //Método para atualizar um produto
   async atualizarProduto(id: string, novosDados: AtualizaProdutoDTO) {
     const entityName = await this.produtoRepository.findOneBy({ id });
+    //Verifica se o Id de produto foi encontrado se nao lanca um statusCode 404
+    if (entityName === null) {
+      throw new NotFoundException('O produto não foi encontrado');
+    }
     Object.assign(entityName, novosDados);
     await this.produtoRepository.save(entityName);
   }
