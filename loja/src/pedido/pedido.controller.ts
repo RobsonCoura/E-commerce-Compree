@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { AtualizaPedidoDto } from './dto/AtualizaPedido.dto';
 import { CriaPedidoDTO } from './dto/CriaPedido.dto';
 import { PedidoService } from './pedido.service';
@@ -28,6 +28,7 @@ export class PedidoController {
     return pedidos;
   }
   //Endpoint para atualizar pedido
+  @Patch(':id')
   atualizaPedido(
     @Param('id') pedidoId: string,
     @Body() dadosDeAtualizacao: AtualizaPedidoDto,

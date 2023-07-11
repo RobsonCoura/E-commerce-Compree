@@ -114,10 +114,12 @@ export class PedidoService {
       },
     });
   }
-  //Método para atualizar um pedido utilizando id de um usuário cadastrado no banco
+  // Método para atualizar um pedido utilizando id de um usuário cadastrado no banco
   async atualizaPedido(id: string, dto: AtualizaPedidoDto) {
     const pedido = await this.pedidoRepository.findOneBy({ id });
-    //
+    // throw new Error('Simulacão erro de banco de dados!');
+
+    // Conferencia se Id de pedido existe no banco
     if (pedido === null) {
       throw new NotFoundException('O pedido não foi encontrado');
     }
