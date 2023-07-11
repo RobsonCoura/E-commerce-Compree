@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { ProdutoEntity } from '../produto/produto.entity';
@@ -31,6 +35,30 @@ export class PedidoService {
     return usuario;
   }
 
+  //
+  private trataDadosDoPedido(
+    dadosDoPedido: CriaPedidoDTO,
+    produtosRelacionados: ProdutoEntity[],
+  ) {
+    dadosDoPedido.itensPedido.forEach((itemPedido) => {
+      const produtoRelacionado = produtosRelacionados.find(
+        (produto) => produto.id === itemPedido.produtoId,
+      );
+      //Conferencia se o produto com Id ItemPedido existe
+      if (produtoRelacionado === undefined) {
+        throw new NotFoundException(
+          `O produto com id ${itemPedido.produtoId} não foi encontrado`,
+        );
+      }
+      //Conferencia se usuario colocou uma quantidade de itemPedido maior do que tem disponivel
+      if (itemPedido.quantidade > produtoRelacionado.quantidadeDisponivel) {
+        throw new BadRequestException(
+          `A quantidade solicitada (${itemPedido.quantidade}) é maior do que a disponivel (${produtoRelacionado.quantidadeDisponivel}) para o produto ${produtoRelacionado.nome}.`,
+        );
+      }
+    });
+  }
+
   //Método para cadastrar um pedido utilizando id de um usuário cadastrado no banco
   async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDTO) {
     const usuario = await this.buscaUsuario(usuarioId);
@@ -46,20 +74,17 @@ export class PedidoService {
     pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO;
     pedidoEntity.usuario = usuario;
 
+    this.trataDadosDoPedido(dadosDoPedido, produtosRelacionados);
+
     const itensPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
       //Fazer a busca do produto relacionado ao itemId
       const produtoRelacionado = produtosRelacionados.find(
         (produto) => produto.id === itemPedido.produtoId,
       );
-      //Conferencia se o produto com Id ItemPedido existe
-      if (produtoRelacionado === undefined) {
-        throw new NotFoundException(
-          `O produto com id ${itemPedido.produtoId} não foi encontrado`,
-        );
-      }
+
       const itemPedidoEntity = new ItemPedidoEntity();
-      itemPedidoEntity.produto = produtoRelacionado;
-      itemPedidoEntity.precoVenda = produtoRelacionado.valor;
+      itemPedidoEntity.produto = produtoRelacionado!;
+      itemPedidoEntity.precoVenda = produtoRelacionado!.valor;
       itemPedidoEntity.quantidade = itemPedido.quantidade;
       //Processamento fazendo uma subtracao via cascade na tabela de produtos
       itemPedidoEntity.produto.quantidadeDisponivel -= itemPedido.quantidade;
