@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query
+} from '@nestjs/common';
 import { AtualizaPedidoDto } from './dto/AtualizaPedido.dto';
 import { CriaPedidoDTO } from './dto/CriaPedido.dto';
 import { PedidoService } from './pedido.service';
@@ -34,5 +43,15 @@ export class PedidoController {
     @Body() dadosDeAtualizacao: AtualizaPedidoDto,
   ) {
     return this.pedidoService.atualizaPedido(pedidoId, dadosDeAtualizacao);
+  }
+
+  @Delete('/:id')
+  async deletarUmPedido(@Param('id') id: string) {
+    const pedidoRemovido = await this.pedidoService.deletaPedido(id);
+
+    return {
+      mensagem: 'pedido removido com sucesso',
+      produto: pedidoRemovido,
+    };
   }
 }

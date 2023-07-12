@@ -130,4 +130,13 @@ export class PedidoService {
 
     return this.pedidoRepository.save(pedido);
   }
+
+  //Método para excluir um produto
+  async deletaPedido(id: string) {
+    const resultado = await this.pedidoRepository.delete(id);
+
+    if (!resultado.affected) {
+      throw new NotFoundException('O pedido não foi encontrado');
+    }
+  }
 }

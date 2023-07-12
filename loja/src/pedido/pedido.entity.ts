@@ -6,7 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { UsuarioEntity } from '../usuario/usuario.entity';
 import { StatusPedido } from './enum/statuspedido.enum';
@@ -40,6 +40,7 @@ export class PedidoEntity {
   //Criando relacionamento que varios itens_pedidos possui um pedido N:1
   @OneToMany(() => ItemPedidoEntity, (itemPedido) => itemPedido.pedido, {
     cascade: true,
+    eager: true,
   })
   itensPedido: ItemPedidoEntity[];
 }
